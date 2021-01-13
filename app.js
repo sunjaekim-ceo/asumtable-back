@@ -4,15 +4,15 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const dotenv = require("dotenv");
-const logger = require("morgan");
+const morgan = require("morgan");
 const path = require("path");
+const hpp = require("hpp");
+const helmet = require("helmet");
 const connectRedis = require("connect-redis");
 const RedisStore = connectRedis(session);
 // const favicon = require("serve-favicon");
 // const bodyPaser = require("body-parser");
 // const redis = require("./redis");
-const hpp = require("hpp");
-const helmet = require("helmet");
 
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auths");
@@ -33,11 +33,31 @@ const app = express();
 db.sequelize
   .sync({ force: false })
   .then(() => {
-    console.log("ASUM_DB Sequelize Sync Success");
+    console.log("ASUM_DB 연결성공");
   })
   .catch(console.error);
 passportConfig();
 
+if (process.env.NODE_ENV === "production") {
+  app.enable("trust proxy");
+  app.use(morgan("combined"));
+  app.use(hpp());
+  app.use(helmet({ contentSecurityPolicy: false }));
+  app.use(
+    cors({
+      origin: ["http://54.180.88.29", "eataround.kr"],
+      credentials: true,
+    })
+  );
+} else {
+  app.use(morgan("dev"));
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    })
+  );
+}
 // const authController = require("./api/auths/authTokenController");
 
 // var orderRouter = require("./routes/orders");
@@ -50,17 +70,18 @@ passportConfig();
 // var orderRouter = require("./api/orders/order.router");
 
 // app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
-app.use(hpp());
-app.use(helmet({ contentSecurityPolicy: false }));
+// app.use(hpp());
+// app.use(helmet({ contentSecurityPolicy: false }));
 const sessionOption = {
   resave: false,
   saveUninitialized: false,
   secret: process.env.COOKIE_SECRET,
-  proxy: true,
+  proxy: process.env.NODE_ENV === "production",
   name: "sessionID",
   cookie: {
     httpOnly: true,
-    secure: false,
+    secure: process.env.NODE_ENV === "production",
+    domain: process.env.NODE_ENV === "production" && ".eataround.kr",
   },
   store: new RedisStore({
     host: process.env.REDIS_HOST,
@@ -75,13 +96,13 @@ app.use(express.json({ limit: "20mb" }));
 app.use(
   express.urlencoded({
     limit: "20mb",
-    extended: false,
+    extended: true,
   })
 );
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session(sessionOption));
-app.use(logger("dev"));
-app.use(cors({ origin: true, credentials: true }));
+// app.use(logger("dev"));
+// app.use(cors({ origin: true, credentials: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static("img"));
