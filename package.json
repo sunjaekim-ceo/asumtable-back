@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app",
+    "start": "pm2 start app.js",
     "test": "jest"
   },
   "dependencies": {
