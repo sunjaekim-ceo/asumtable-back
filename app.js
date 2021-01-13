@@ -11,8 +11,8 @@ const RedisStore = connectRedis(session);
 // const favicon = require("serve-favicon");
 // const bodyPaser = require("body-parser");
 // const redis = require("./redis");
-// const hpp = require("hpp");
-// const helmet = require("helmet");
+const hpp = require("hpp");
+const helmet = require("helmet");
 
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auths");
@@ -50,8 +50,8 @@ passportConfig();
 // var orderRouter = require("./api/orders/order.router");
 
 // app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
-// app.use(hpp());
-// app.use(helmet());
+app.use(hpp());
+app.use(helmet({ contentSecurityPolicy: false }));
 const sessionOption = {
   resave: false,
   saveUninitialized: false,
@@ -101,5 +101,9 @@ app.use("/api/orders", orderRouter);
 app.use("/api/images", imageRouter);
 app.use("/api/test", testRouter);
 // app.use("/api/order", orderRouter);
+
+app.listen(3065, () => {
+  console.log("서버 실행 중");
+});
 
 module.exports = app;
