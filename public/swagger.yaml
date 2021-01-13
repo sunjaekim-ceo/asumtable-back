@@ -1,0 +1,121 @@
+openapi: 3.0.0
+info:
+  title: "ASUM API"
+  description: "ASUM-Table API"
+  version: "1.0.0"
+  contact:
+    email: asum@asum.com
+servers:
+  - description: ASUM API
+    url: http://localhost:3065/
+basePath: "/api"
+tags:
+  - name: "auth"
+    description: "Operations about AUTH"
+  - name: "user"
+    description: "Operations about USER"
+  - name: "host"
+    description: "Operations about HOST"
+  - name: "admin"
+    description: "Operations about ADMIN"
+  - name: "tour"
+    description: "Access to ASUM PRODUCTS"
+  - name: "order"
+    description: "Access to ASUM ORDERs"
+schemes:
+  - "http"
+paths:
+  /auth/register:
+    post:
+      tags:
+        - "auth"
+      summary: "Add a new user to the store"
+      description: ""
+      operationId: "register"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "User object that needs to be added to the store"
+          required: true
+          schema:
+            $ref: "#/definitions/auth"
+      responses:
+        "405":
+          description: "Invalid input"
+      security:
+        - register_auth:
+            - "write:auth"
+            - "read:auth"
+definitions:
+  auth:
+    type: "object"
+    required:
+      - "username"
+      - "email"
+      - "password"
+      - "year"
+      - "month"
+      - "day"
+      - "gender"
+    properties:
+      id:
+        username:
+          type: string
+          example: kim sj
+        email:
+          type: string
+          example: asum@asum.com
+        password:
+          type: string
+          example: asum1234
+        year:
+          type: string
+          example: 1985
+        month:
+          type: string
+          example: 9
+        day:
+          type: string
+          example: 5
+        gender:
+          type: string
+          example: male
+components:
+  schemas:
+    registerUser:
+      type: object
+      required:
+        - username
+        - email
+        - password
+        - year
+        - month
+        - day
+        - gender
+      properties:
+        id:
+          username:
+            type: string
+            example: kim sj
+          email:
+            type: string
+            example: asum@asum.com
+          password:
+            type: string
+            example: asum1234
+          year:
+            type: string
+            example: 1985
+          month:
+            type: string
+            example: 9
+          day:
+            type: string
+            example: 5
+          gender:
+            type: string
+            example: male
