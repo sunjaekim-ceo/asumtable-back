@@ -85,6 +85,11 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static("img"));
+
+app.get("/", (req, res) => {
+  res.send("hello express");
+});
+
 app.use("/api", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
