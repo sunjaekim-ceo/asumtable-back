@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(helmet({ contentSecurityPolicy: false }));
   app.use(
     cors({
-      origin: ["http://54.180.88.29", "eataround.kr"],
+      origin: ["http://128.199.171.26", "eataround.kr"],
       credentials: true,
     })
   );
