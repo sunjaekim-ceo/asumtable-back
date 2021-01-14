@@ -6,7 +6,7 @@ module.exports = {
   development: {
     username: "root",
     password: process.env.DB_PASSWORD,
-    database: "asum_developmentdb",
+    database: "asum_productiondb",
     host: "127.0.0.1",
     port: "3306",
     dialect: "mysql",
@@ -14,7 +14,7 @@ module.exports = {
   test: {
     username: "root",
     password: process.env.DB_PASSWORD,
-    database: "asum_testdb",
+    database: "asum_productiondb",
     host: "127.0.0.1",
     port: "3306",
     dialect: "mysql",
