@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=production pm2 start app.js",
+    "start": "node app",
     "test": "jest"
   },
   "dependencies": {

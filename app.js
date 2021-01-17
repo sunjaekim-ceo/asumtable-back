@@ -108,7 +108,7 @@ app.use(passport.session());
 app.use(express.static("img"));
 
 app.get("/", (req, res) => {
-  res.send("hello express");
+  res.send("Hello ASUM-NODE");
 });
 
 app.use("/api", indexRouter);
