@@ -62,7 +62,7 @@ router.get("/landing", async (req, res, next) => {
         },
       ],
     });
-    res.status(201).json(myTour);
+    return res.status(201).json(myTour);
   } catch (error) {
     console.error(error);
     next(error);
