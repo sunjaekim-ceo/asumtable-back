@@ -164,7 +164,8 @@ router.post(
           },
         }
       );
-      res.status(201).end();
+      console.log(userImg);
+      return res.status(201).json(userImg);
     } catch (error) {
       console.error(error);
       throw error;

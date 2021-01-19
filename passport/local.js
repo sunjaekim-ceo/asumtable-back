@@ -24,7 +24,6 @@ module.exports = () => {
           const user = await User.findOne({
             where: { email },
           });
-          console.log("11111111", typeof user.password);
 
           if (!user) {
             return done(null, false, { reason: "존재하지 않은 이메일입니다!" });

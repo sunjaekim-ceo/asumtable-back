@@ -299,7 +299,7 @@ router.post(
           },
         }
       );
-      res.status(201).end();
+      res.status(201).json(tourImg);
     } catch (error) {
       console.error(error);
       throw error;
