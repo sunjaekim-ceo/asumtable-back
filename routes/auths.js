@@ -49,7 +49,7 @@ router.post("/register", isNotLoggedIn, async (req, res, next) => {
       gender: req.body.gender,
       // host_approval: req.body.host_approval,
     });
-    res.status(201).send({ redirect: "/api/user/landing" });
+    return done(null, user);
   } catch (error) {
     console.error(error);
     next(error); //status 500
